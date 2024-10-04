@@ -9,14 +9,15 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import DataTable from "./view/data-table";
+import DataTable from "../view/data-table";
 import Pagination from "@/components/pagination";
 import ComboBoxRuangan from "@/components/combobox";
 import axios from "axios";
 import DatePicker from "@/components/DatePicker";
-import { ChartPasien } from "./view/ChartPasien";
-import { ChartPie } from "./view/ChartPie";
+import { ChartPasien } from "../view/ChartPasien";
+import { ChartPie } from "../view/ChartPie";
 import { PageHome } from "@/lib/contextProvider";
+import { Skeleton } from "@/components/ui/skeleton";
 interface ITableCheckoutProps {
   page: number;
 }
@@ -39,7 +40,6 @@ const TableCheckout: React.FunctionComponent<ITableCheckoutProps> = (props) => {
   const [dataPoliPie, setDataPoliPie] = useState<any[]>([]);
   const [state, dispatch] = useState<any>();
 
-  // console.log(dateShow);
   useEffect(() => {
     dataPasien();
   }, [page, sortTarget, datePick, room]);
@@ -102,10 +102,10 @@ const TableCheckout: React.FunctionComponent<ITableCheckoutProps> = (props) => {
 
   return (
     <PageHome.Provider value={[state, dispatch]}>
-      <div>
-        <Card x-chunk="dashboard-06-chunk-0" className="h-fit mb-4">
+      <div className="w-full">
+        <Card className="h-fit mb-4 ">
           <CardHeader className="px-7 bg-gray-100 rounded-t-lg ">
-            <div className="flex gap-5 items-center">
+            <div className="flex gap-5 items-center flex-wrap">
               <div>
                 <CardTitle className="mb-2">Janji Poli</CardTitle>
                 <CardDescription>Jumlah Pasien H+7</CardDescription>
@@ -116,7 +116,7 @@ const TableCheckout: React.FunctionComponent<ITableCheckoutProps> = (props) => {
                 setRoom={setRoom}
                 data={listRuangan}
               ></ComboBoxRuangan>
-              <div className=" md:w-[860px] flex overflow-x-auto gap-2">
+              <div className=" flex-1 flex overflow-x-auto gap-2">
                 {room.length ? (
                   room.map((val) => {
                     return (
@@ -142,29 +142,40 @@ const TableCheckout: React.FunctionComponent<ITableCheckoutProps> = (props) => {
               </div>
             </div>
           </CardHeader>
-          <DataTable
-            data={data}
-            date={date}
-            page={page}
-            sortTarget={setSortTarget}
-          ></DataTable>
+          <CardContent>
+            {!data.length ? (
+              <div>
+                <Skeleton className="w-full h-[472px] max-sm:max-w-[472px] mt-5" />
+              </div>
+            ) : (
+              <div className="w-full max-sm:max-w-[472px]">
+                <DataTable
+                  data={data}
+                  date={date}
+                  page={page}
+                  sortTarget={setSortTarget}
+                ></DataTable>
+              </div>
+            )}
+          </CardContent>
         </Card>
-        <div className="w-full flex justify-end mb-4">
+        {/* x-chunk="dashboard-06-chunk-0" */}
+        <div className=" flex justify-end mb-4">
           <Pagination
             setPage={SetPage}
             page={page}
             maxPage={maxPage}
           ></Pagination>
         </div>
-        <div className="flex gap-4 h-[400px]">
+        <div className="flex gap-2 h-fit flex-wrap ">
           <ChartPasien
             data={dataChart}
             setDateRange={setDateRange}
             dateRange={dateRange}
             sum={sumPasien}
-            classname="flex-[2]"
+            classname="flex-1 min-w-fit"
           ></ChartPasien>
-          <div className="flex-[1]">
+          <div className="flex-1 min-w-fit">
             <ChartPie
               data={dataPoli}
               setListPoli={setDataPoliPie}

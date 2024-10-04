@@ -22,6 +22,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const description = "A donut chart with text";
 
@@ -55,6 +56,9 @@ export const ChartPie: React.FC<{
   React.useEffect(() => {
     dispatch("halo");
   }, []);
+
+  if (!pieData) return <Skeleton className="flex-1 w-min-fit h-[472px]" />;
+
   return (
     <Card className="flex flex-col h-full">
       <CardHeader className=" pb-0 ">

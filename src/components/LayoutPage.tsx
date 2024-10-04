@@ -11,6 +11,8 @@ import {
   Search,
   ShoppingCart,
   Users,
+  Monitor,
+  User2,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -31,7 +33,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Chilanka } from "next/font/google";
 interface IDashboardProps {
   children: React.ReactNode;
 }
@@ -78,19 +79,19 @@ const DashboardLayout: React.FunctionComponent<IDashboardProps> = (props) => {
             Products{" "}
           </Link> */}
               <Link
-                href="#"
+                href="/janjipoli"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <Monitor className="h-4 w-4" />
+                Janji Poli Online
+              </Link>
+              <Link
+                href="/pendaftaranpoli"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <Users className="h-4 w-4" />
-                Janji Poli
+                Pasien daftar
               </Link>
-              {/* <Link
-            href="#"
-            className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-          >
-            <LineChart className="h-4 w-4" />
-            Analytics
-          </Link> */}
             </nav>
           </div>
           {/* <div className="mt-auto p-4">
@@ -158,19 +159,19 @@ const DashboardLayout: React.FunctionComponent<IDashboardProps> = (props) => {
               Products
             </Link> */}
                 <Link
-                  href="#"
+                  href="/janjipoli"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                >
+                  <Monitor className="h-4 w-4" />
+                  Janji Poli
+                </Link>
+                <Link
+                  href="/pendaftaranpoli"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                 >
                   <Users className="h-5 w-5" />
-                  Janji Poli
+                  Pasien Daftar
                 </Link>
-                {/* <Link
-              href="#"
-              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-            >
-              <LineChart className="h-5 w-5" />
-              Analytics
-            </Link> */}
               </nav>
               {/* <div className="mt-auto">
                 <Card>
@@ -201,25 +202,29 @@ const DashboardLayout: React.FunctionComponent<IDashboardProps> = (props) => {
             />
           </div>
         </form>
-      </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="secondary" size="icon" className="rounded-full">
-            <CircleUser className="h-5 w-5" />
-            <span className="sr-only">Toggle user menu</span>
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu> */}
+      </div>*/}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="secondary" size="icon" className="rounded-full">
+                <CircleUser className="h-5 w-5" />
+                <span className="sr-only">Toggle user menu</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => {
+                  localStorage.removeItem("token");
+                }}
+              >
+                <Link href={"/"}> Logout</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 ">
           <div className="shadow-sm" x-chunk="dashboard-02-chunk-1">
             <div>{props.children}</div>
           </div>

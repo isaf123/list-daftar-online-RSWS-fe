@@ -94,19 +94,17 @@ const DataTable: React.FunctionComponent<ITableCheckoutProps> = (props) => {
   };
 
   return (
-    <CardContent>
-      <Table className="">
-        <TableHeader className="">
-          <TableRow>
-            <TableHead>no.</TableHead>
-            <TableHead className="w-[340px]">ruangan</TableHead>
-            {headerMapping()}
-          </TableRow>
-        </TableHeader>
+    <Table>
+      <TableHeader className="">
+        <TableRow>
+          <TableHead>no.</TableHead>
+          <TableHead className="w-[340px]">ruangan</TableHead>
+          {headerMapping()}
+        </TableRow>
+      </TableHeader>
 
-        <TableBody className="">{mapping()}</TableBody>
-      </Table>
-    </CardContent>
+      <TableBody className="">{mapping()}</TableBody>
+    </Table>
   );
 };
 

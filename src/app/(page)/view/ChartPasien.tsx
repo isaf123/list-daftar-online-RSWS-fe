@@ -20,6 +20,7 @@ import { DatePickerWithRange } from "@/components/RangeDate";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const description = "An interactive bar chart";
 
@@ -37,6 +38,8 @@ export const ChartPasien: React.FC<{
   sum: number;
   classname?: string;
 }> = ({ data, setDateRange, dateRange, sum, classname }) => {
+  // if (!data?.length) return <Skeleton className="flex-1 w-min-fit h-[472px]" />;
+
   return (
     <Card className={cn(classname)}>
       <CardHeader className="flex flex-col items-center space-y-0 border-b p-0 sm:flex-row">
@@ -44,18 +47,20 @@ export const ChartPasien: React.FC<{
           <CardTitle>Grafik Janji Poli</CardTitle>
           <CardDescription>Jumlah pasien/hari</CardDescription>
         </div>
-        <DatePickerWithRange
-          classname="px-6"
-          setDateRange={setDateRange}
-          dateRange={dateRange}
-        ></DatePickerWithRange>
-        <div className="flex">
-          <button className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6">
-            <span className="text-xs text-muted-foreground">PASIEN</span>
-            <span className="text-lg font-bold leading-none sm:text-3xl">
-              {sum}
-            </span>
-          </button>
+        <div className="flex items-center">
+          <DatePickerWithRange
+            classname="px-6"
+            setDateRange={setDateRange}
+            dateRange={dateRange}
+          ></DatePickerWithRange>
+          <div className="flex">
+            <button className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6">
+              <span className="text-xs text-muted-foreground">PASIEN</span>
+              <span className="text-lg font-bold leading-none sm:text-3xl">
+                {sum}
+              </span>
+            </button>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="px-2 sm:p-6">
