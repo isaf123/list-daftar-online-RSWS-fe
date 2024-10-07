@@ -1,21 +1,25 @@
 "use client";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import {
-  Users,
-  Building2,
-  CalendarIcon,
-  UserCheck,
-  StopCircle,
-} from "lucide-react";
-import React, { useState } from "react";
+import { Card, CardTitle, CardContent } from "@/components/ui/card";
+import { Users, Building2, UserCheck, StopCircle } from "lucide-react";
+import React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const CardInfo: React.FC<{
   totalPasien?: Number;
   totalPoli?: Number;
   pulang?: Number;
   batalPeriksa?: number;
-}> = ({ totalPasien, totalPoli, pulang, batalPeriksa }) => {
-  console.log(totalPasien);
+  isPending?: boolean;
+}> = ({ totalPasien, totalPoli, pulang, batalPeriksa, isPending }) => {
+  if (isPending)
+    return (
+      <div className="w-full h-[200px] flex gap-4 flex-wrap mb-8">
+        <Skeleton className="flex-1 min-h-fit" />
+        <Skeleton className="flex-1 min-h-fit" />
+        <Skeleton className="flex-1 min-h-fit" />
+        <Skeleton className="flex-1 min-h-fit" />
+      </div>
+    );
 
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">

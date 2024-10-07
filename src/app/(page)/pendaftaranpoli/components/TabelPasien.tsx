@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Table,
-  TableFooter,
   TableHeader,
   TableHead,
   TableRow,
@@ -10,14 +9,16 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import Pagination from "@/components/pagination";
 import { cn } from "@/lib/utils";
 export const TabelPasien: React.FC<{
-  data: any[];
+  data: any;
   page2: number;
   setPage2: any;
-  maxPage: number;
-}> = ({ data, page2, setPage2, maxPage }) => {
+  pending: boolean;
+}> = ({ data, page2, setPage2, pending }) => {
+  if (pending) return <Skeleton className="w-full h-[585px]" />;
   return (
     <Card className="bg-white border border-gray-100 shadow-md">
       <CardHeader>
@@ -42,7 +43,7 @@ export const TabelPasien: React.FC<{
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data?.map((patient, idx) => (
+            {data?.result.map((patient: any, idx: number) => (
               <TableRow key={idx} className="text-center">
                 <TableCell className="text-left">
                   {(page2 - 1) * 10 + idx + 1}
@@ -80,7 +81,11 @@ export const TabelPasien: React.FC<{
           </TableBody>
         </Table>
         <div className="flex justify-end mt-4">
-          <Pagination maxPage={maxPage} page={page2} setPage={setPage2} />
+          <Pagination
+            maxPage={data?.totalPage}
+            page={page2}
+            setPage={setPage2}
+          />
         </div>
       </CardContent>
     </Card>

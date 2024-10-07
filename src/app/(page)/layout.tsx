@@ -1,5 +1,4 @@
 "use client";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import DashboardLayout from "@/components/LayoutPage";
 import { useEffect, useState } from "react";
@@ -15,12 +14,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [verified, setVerified] = useState<Boolean>(true);
   const router = useRouter();
   const queryClient = new QueryClient();
   useEffect(() => {
     keepLogin();
-  }, [verified]);
+  }, []);
 
   const keepLogin = async () => {
     try {

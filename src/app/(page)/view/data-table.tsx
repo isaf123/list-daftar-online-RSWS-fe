@@ -1,17 +1,7 @@
 "use client";
 import * as React from "react";
 import { useState } from "react";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
 import {
   Table,
   TableBody,
@@ -20,10 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import axios from "axios";
-import { Ghost } from "lucide-react";
-
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface ITableCheckoutProps {
   data: any[];
@@ -78,6 +64,7 @@ const DataTable: React.FunctionComponent<ITableCheckoutProps> = (props) => {
     return props.date?.map((val, i) => {
       return (
         <TableHead
+          key={i}
           className="text-center"
           onClick={() => {
             {

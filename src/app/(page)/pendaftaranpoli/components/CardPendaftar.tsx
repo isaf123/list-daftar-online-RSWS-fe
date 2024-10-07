@@ -9,27 +9,19 @@ import {
   TableCell,
   Table,
 } from "@/components/ui/table";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@radix-ui/react-select";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Wifi, Hospital } from "lucide-react";
 import Pagination from "@/components/pagination";
-import { Input } from "@/components/ui/input";
 
 export const TabelPendaftaran: React.FC<{
-  dataCompare: { online: Number; offline: Number; total: Number };
-  tabelCompare: { totalPage: Number; totalData: Number; result: any[] };
+  dataCompare: { online: number; offline: number };
+  tabelCompare: { totalPage: number; totalData: number; result: any[] };
   page1: number;
   setPage1: any;
   maxPage1: number;
-}> = ({ dataCompare, tabelCompare, maxPage1, page1, setPage1 }) => {
-  const { online, offline, total } = dataCompare;
-  const { totalData, totalPage, result } = tabelCompare;
-
+  pending: boolean;
+}> = ({ dataCompare, tabelCompare, page1, setPage1, pending }) => {
+  if (pending) return <Skeleton className="w-full h-[721px]" />;
   return (
     <Card className="mb-8 bg-white border border-gray-100 shadow-md px-8">
       <CardHeader>
@@ -43,7 +35,7 @@ export const TabelPendaftaran: React.FC<{
             <div className="text-center">
               <Wifi className="h-16 w-16 text-blue-500 mb-2 mx-auto" />
               <div className="text-4xl font-bold text-blue-700">
-                {String(online)}
+                {String(dataCompare?.online)}
               </div>
               <div className="text-lg text-blue-600">Pasien daftar online</div>
             </div>
@@ -51,7 +43,7 @@ export const TabelPendaftaran: React.FC<{
             <div className="text-center">
               <Hospital className="h-16 w-16 text-green-500 mb-2 mx-auto" />
               <div className="text-4xl font-bold text-green-700">
-                {String(offline)}
+                {String(dataCompare?.offline)}
               </div>
               <div className="text-lg text-green-600">
                 Pasien daftar offline
@@ -102,8 +94,8 @@ export const TabelPendaftaran: React.FC<{
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {result &&
-                  result.map((stat, idx) => (
+                {tabelCompare?.result &&
+                  tabelCompare?.result.map((stat, idx) => (
                     <TableRow key={idx}>
                       <TableCell className="w-fit">
                         {(page1 - 1) * 10 + idx + 1}
@@ -125,7 +117,11 @@ export const TabelPendaftaran: React.FC<{
               </TableBody>
             </Table>
             <div className="flex justify-end mt-4">
-              <Pagination maxPage={maxPage1} page={page1} setPage={setPage1} />
+              <Pagination
+                maxPage={tabelCompare?.totalPage}
+                page={page1}
+                setPage={setPage1}
+              />
             </div>
           </div>
         </div>

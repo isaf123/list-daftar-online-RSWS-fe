@@ -5,7 +5,6 @@ import { Label, Pie, PieChart } from "recharts";
 import ComboBoxRuangan from "@/components/combobox";
 import { Badge } from "@/components/ui/badge";
 import { format, subMonths } from "date-fns";
-import { usePostContext } from "@/lib/contextProvider";
 
 import {
   Card,
@@ -42,7 +41,7 @@ export const ChartPie: React.FC<{
   listPoli: any[];
   dateShow: { from: any; to: any };
 }> = ({ data, setListPoli, listPoli, dateShow }) => {
-  const pieData = data.dataPoli;
+  const pieData = data?.dataPoli;
 
   const ChartData = pieData?.map((val: any, i: number) => {
     return {
@@ -51,11 +50,6 @@ export const ChartPie: React.FC<{
       fill: `hsl(var(--chart-${i + 1}))`,
     };
   });
-  const [state, dispatch] = usePostContext();
-
-  React.useEffect(() => {
-    dispatch("halo");
-  }, []);
 
   if (!pieData) return <Skeleton className="flex-1 w-min-fit h-[472px]" />;
 
@@ -140,6 +134,7 @@ export const ChartPie: React.FC<{
             listPoli.map((val) => {
               return (
                 <Badge
+                  key={val}
                   className="px-0 flex justify-center shadow-md border border-gray-500 cursor-pointer"
                   variant={"secondary"}
                   onClick={() => {

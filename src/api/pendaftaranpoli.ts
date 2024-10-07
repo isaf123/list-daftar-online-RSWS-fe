@@ -1,7 +1,7 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export const cardTopQUery = (date: Date) => {
+export const useCardTopQUery = (date: Date) => {
   const result = useQuery({
     queryFn: async () => {
       const { data: jumlahPasien } = await axios.get(
@@ -25,4 +25,40 @@ export const cardTopQUery = (date: Date) => {
   });
 
   return result;
+};
+
+export const useJumlahOfflineOnline = (date: Date) => {
+  return useQuery({
+    queryFn: async () => {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}daftarpoli/perbandingantotal?date=${date}`
+      );
+      return response.data;
+    },
+    queryKey: ["jumlahOnlineOffline", date],
+  });
+};
+
+export const useTabelJumlahPasien = (date: Date, page1: number) => {
+  return useQuery({
+    queryFn: async () => {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}daftarpoli/tabeldaftar?page=${page1}&date=${date}`
+      );
+      return response.data;
+    },
+    queryKey: ["tabelJumlahPasien", date, page1],
+  });
+};
+
+export const useDataPasien = (date: Date, page2: number) => {
+  return useQuery({
+    queryFn: async () => {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}daftarpoli/tabelpasien?page=${page2}&date=${date}`
+      );
+      return response.data;
+    },
+    queryKey: ["dataPasien", date, page2],
+  });
 };
