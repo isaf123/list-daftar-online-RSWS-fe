@@ -18,6 +18,7 @@ import {
 } from "@/api/pendaftaranpoli";
 import ComboBoxRuangan from "@/components/combobox";
 import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 
 export const TabelPendaftaran: React.FC<{
   page1: number;
@@ -35,7 +36,8 @@ export const TabelPendaftaran: React.FC<{
   );
   console.log(room);
 
-  if (isPending) return <Skeleton className="w-full h-[721px]" />;
+  if (isPending && !room.length)
+    return <Skeleton className="w-full h-[721px]" />;
   return (
     <Card className="mb-8 bg-white border border-gray-100 shadow-md px-8">
       <CardHeader>
@@ -64,11 +66,34 @@ export const TabelPendaftaran: React.FC<{
               </div>
             </div>
           </div>
-          {/* <ComboBoxRuangan
+          <ComboBoxRuangan
             room={room}
             setRoom={setRoom}
-            data={tabelJumlahPasien.listPoli}
-          /> */}
+            data={tabelJumlahPasien?.listPoli}
+          />
+          <div className=" flex-1 flex overflow-x-auto gap-2">
+            {room.length ? (
+              room.map((val) => {
+                return (
+                  <Badge
+                    key={val}
+                    className="px-0 flex justify-center shadow-md border border-gray-500 cursor-pointer"
+                    variant={"secondary"}
+                    onClick={() => {
+                      const updateRoom = room.filter((item) => val !== item);
+
+                      setRoom(updateRoom);
+                    }}
+                  >
+                    <div className="ml-4 w-[64px] truncate">{val}</div>
+                    <div className="mr-4 font-bold text-red-600">x</div>
+                  </Badge>
+                );
+              })
+            ) : (
+              <></>
+            )}
+          </div>
           <div className="mt-6">
             <Table>
               <TableHeader>

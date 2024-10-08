@@ -48,7 +48,7 @@ export const useTabelJumlahPasien = (
     queryFn: async () => {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}daftarpoli/tabeldaftar?page=${page1}&date=${date}`,
-        { ruangan }
+        ruangan ? { ruangan } : {}
       );
       return response.data;
     },
