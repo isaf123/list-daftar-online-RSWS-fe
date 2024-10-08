@@ -17,13 +17,8 @@ export default function Dashboard() {
   const [page1, setPage1] = useState(1);
   const [page2, setPage2] = useState(1);
   const { data: cardData, isLoading } = useCardTopQUery(date);
-  const { data: jumlahOfflineOnline } = useJumlahOfflineOnline(date);
   const { data: tabelJumlahPasien, isPending: pendingTabelJumlah } =
     useTabelJumlahPasien(date, page1);
-  const { data: dataPasien, isPending: pendingDataPasien } = useDataPasien(
-    date,
-    page2
-  );
 
   return (
     <div className="container mx-auto p-4 md:p-10 ">
@@ -43,19 +38,8 @@ export default function Dashboard() {
         isPending={isLoading}
       />
 
-      <TabelPendaftaran
-        dataCompare={jumlahOfflineOnline}
-        tabelCompare={tabelJumlahPasien}
-        page1={page1}
-        setPage1={setPage1}
-        pending={pendingTabelJumlah}
-      />
-      <TabelPasien
-        data={dataPasien}
-        page2={page2}
-        setPage2={setPage2}
-        pending={pendingDataPasien}
-      />
+      <TabelPendaftaran page1={page1} setPage1={setPage1} date={date} />
+      <TabelPasien date={date} page2={page2} setPage2={setPage2} />
     </div>
   );
 }

@@ -12,16 +12,30 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Wifi, Hospital } from "lucide-react";
 import Pagination from "@/components/pagination";
+import {
+  useJumlahOfflineOnline,
+  useTabelJumlahPasien,
+} from "@/api/pendaftaranpoli";
+import ComboBoxRuangan from "@/components/combobox";
+import { useState } from "react";
 
 export const TabelPendaftaran: React.FC<{
-  dataCompare: { online: number; offline: number };
-  tabelCompare: { totalPage: number; totalData: number; result: any[] };
   page1: number;
   setPage1: any;
   maxPage1: number;
-  pending: boolean;
-}> = ({ dataCompare, tabelCompare, page1, setPage1, pending }) => {
-  if (pending) return <Skeleton className="w-full h-[721px]" />;
+  date: Date;
+}> = ({ page1, setPage1, date }) => {
+  const [room, setRoom] = useState<any[]>([]);
+
+  const { data: offlineOnline } = useJumlahOfflineOnline(date);
+  const { data: tabelJumlahPasien, isPending } = useTabelJumlahPasien(
+    date,
+    page1,
+    room
+  );
+  console.log(room);
+
+  if (isPending) return <Skeleton className="w-full h-[721px]" />;
   return (
     <Card className="mb-8 bg-white border border-gray-100 shadow-md px-8">
       <CardHeader>
@@ -35,7 +49,7 @@ export const TabelPendaftaran: React.FC<{
             <div className="text-center">
               <Wifi className="h-16 w-16 text-blue-500 mb-2 mx-auto" />
               <div className="text-4xl font-bold text-blue-700">
-                {String(dataCompare?.online)}
+                {String(offlineOnline?.online)}
               </div>
               <div className="text-lg text-blue-600">Pasien daftar online</div>
             </div>
@@ -43,36 +57,19 @@ export const TabelPendaftaran: React.FC<{
             <div className="text-center">
               <Hospital className="h-16 w-16 text-green-500 mb-2 mx-auto" />
               <div className="text-4xl font-bold text-green-700">
-                {String(dataCompare?.offline)}
+                {String(offlineOnline?.offline)}
               </div>
               <div className="text-lg text-green-600">
                 Pasien daftar offline
               </div>
             </div>
           </div>
+          {/* <ComboBoxRuangan
+            room={room}
+            setRoom={setRoom}
+            data={tabelJumlahPasien.listPoli}
+          /> */}
           <div className="mt-6">
-            {/* <div className="flex justify-between mb-4">
-          
-              <Input
-            placeholder="Search departments..."
-            value={statSearchTerm}
-            onChange={(e) => setStatSearchTerm(e.target.value)}
-            className="w-full md:w-[200px]"
-          />
-          <Select
-            onValueChange={setStatFilterType}
-            value={statFilterType}
-          >
-            <SelectTrigger className="w-full md:w-[150px]">
-              <SelectValue placeholder="Filter by type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="All">All</SelectItem>
-              <SelectItem value="Online">Online</SelectItem>
-              <SelectItem value="Offline">Offline</SelectItem>
-            </SelectContent>
-          </Select>
-            </div> */}
             <Table>
               <TableHeader>
                 <TableRow>
@@ -94,8 +91,8 @@ export const TabelPendaftaran: React.FC<{
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {tabelCompare?.result &&
-                  tabelCompare?.result.map((stat, idx) => (
+                {tabelJumlahPasien?.result &&
+                  tabelJumlahPasien?.result.map((stat: any, idx: number) => (
                     <TableRow key={idx}>
                       <TableCell className="w-fit">
                         {(page1 - 1) * 10 + idx + 1}
@@ -118,7 +115,7 @@ export const TabelPendaftaran: React.FC<{
             </Table>
             <div className="flex justify-end mt-4">
               <Pagination
-                maxPage={tabelCompare?.totalPage}
+                maxPage={tabelJumlahPasien?.totalPage}
                 page={page1}
                 setPage={setPage1}
               />

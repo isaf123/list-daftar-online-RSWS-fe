@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableHeader,
@@ -7,18 +7,23 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import Pagination from "@/components/pagination";
 import { cn } from "@/lib/utils";
+import { useDataPasien } from "@/api/pendaftaranpoli";
 export const TabelPasien: React.FC<{
-  data: any;
   page2: number;
   setPage2: any;
-  pending: boolean;
-}> = ({ data, page2, setPage2, pending }) => {
-  if (pending) return <Skeleton className="w-full h-[585px]" />;
+  date: Date;
+}> = ({ page2, setPage2, date }) => {
+  const [search, setSearch] = useState<string>("");
+  const { data, isPending } = useDataPasien(date, page2, search);
+  console.log(search);
+
+  if (isPending && !search) return <Skeleton className="w-full h-[585px]" />;
   return (
     <Card className="bg-white border border-gray-100 shadow-md">
       <CardHeader>
@@ -27,7 +32,12 @@ export const TabelPasien: React.FC<{
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <Table>
+        <Input
+          className="mb-4 w-[230px]"
+          placeholder="cari pasien"
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <Table className="min-h-[500px]">
           <TableHeader>
             <TableRow className="text-center">
               <TableHead className="font-semibold">No</TableHead>

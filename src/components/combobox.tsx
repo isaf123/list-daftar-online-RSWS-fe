@@ -18,12 +18,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { listRuangan } from "@/lib/ruangan";
-
-const arr = listRuangan.map((val) => ({
-  value: val,
-  label: val,
-}));
 
 interface IComboBoxRuanganProps {
   room?: any[];
